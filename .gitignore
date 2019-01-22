@@ -2,3 +2,6 @@
 node_modules/*
 package-lock.json
 screen/*
+cache/*
+!screen/index.html
+!cache/index.html

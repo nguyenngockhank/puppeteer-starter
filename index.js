@@ -1,20 +1,25 @@
 require('dotenv').config()
 
 var path = require('path');
-global.appRoot = path.resolve(__dirname);
+global.appRoot = path.resolve(__dirname) + '/';
 
-var {dataRuntime} = require('./runtime');
+global._require = function _require(path) {
+  let fullPath = appRoot + path;
+  return  require(fullPath);
+}
+
+var {dataRuntime} = _require('runtime'); // require('./runtime');
 global.runtime = dataRuntime;
 
-let TaskAbstract = require('./pattern/task');
+let TaskAbstract = _require('pattern/task');
 global.TaskAbstract = TaskAbstract;
 
-let AppProcess = require('./pattern/app_process');
+let AppProcess = _require('pattern/app_process');
 global.AppProcess = AppProcess;
 
 const puppeteer = require('puppeteer');
 
-const ModuleRunner = require('./modules');
+const ModuleRunner = _require('modules');
 
 /// -- helper function
 function grabArgument(key){ 

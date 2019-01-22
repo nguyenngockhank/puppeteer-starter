@@ -1,0 +1,20 @@
+let GrabDataTask = _require('common/GrabDataTask');
+
+const instance = GrabDataTask({
+    fnExecute: function(){
+        let data = [];
+        let authorWrappers = jQuery('.bq_s .btn-primary'); 
+        authorWrappers.each(function(key, el){
+            data.push({
+                href: jQuery(el).attr('href'),
+            });
+        });
+        return data;
+    },
+    fnAfterExecute: function(data, page, option){
+        option.data.authorLinks = data;
+    },
+    cacheKey: 'authorCatLinks'
+})
+
+module.exports = instance;
