@@ -22,6 +22,7 @@ function AppProcess(config){
     instance.getPage = () => page;
 
     instance.accessPage = async () => {
+        if(!url) return;
         await UI_Utils.accessPage(page, url, name, 1000);
         Logger.info('Done loading page');
     }

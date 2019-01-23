@@ -5,17 +5,18 @@ let ProcessAuthorPage = TaskAbstract();
 
 ProcessAuthorPage.execute = async function(page, option){
     let {authorLinks} = option.data;
-
+    let dataAuthors = [];
     for(let { href  } of authorLinks) {
         let authorLink = href;
         var chunks = authorLink.match(/(tac\-gia\/)([a-z])(\.html)/);
-        let cacheKey = 'authors-' +  chunks[2] + chunks[3] ;
+        let cacheKey = 'authors-' +  chunks[2] + '.json' ;
 
-        await UI_Utils.accessPage(page, authorLink, cacheKey);
-
-       
         /// define task
         let task = GrabDataTask({
+            url: authorLink,
+            capture: true,
+            cacheKey: cacheKey,
+            /// 
             fnExecute: function(){
                 let data = [];
                 let authorLink = jQuery('.bq_s table a')
@@ -29,14 +30,13 @@ ProcessAuthorPage.execute = async function(page, option){
                 });
                 return data;
             },
-            fnAfterExecute: function(data, page, option){
-                Logger.success('DATA NE '+ chunks[2]);
-                console.log(data)
+            fnAfterExecute: function(data){
+                dataAuthors = dataAuthors.concat(data);
             },
-            cacheKey: cacheKey,
         });
         await task.run(page, option);
     }
+    option.data.dataAuthors = dataAuthors;
 }
 
 module.exports = ProcessAuthorPage;

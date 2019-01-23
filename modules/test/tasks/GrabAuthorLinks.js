@@ -1,6 +1,12 @@
 let GrabDataTask = _require('common/GrabDataTask');
 
+let url
+
 const instance = GrabDataTask({
+    url: '/tac-gia.html',
+    cacheKey: 'author-links.json',
+    capture: true,
+    /// end capture screen
     fnExecute: function(){
         let data = [];
         let authorWrappers = jQuery('.bq_s .btn-primary'); 
@@ -14,7 +20,6 @@ const instance = GrabDataTask({
     fnAfterExecute: function(data, page, option){
         option.data.authorLinks = data;
     },
-    cacheKey: 'authorCatLinks'
 })
 
 module.exports = instance;

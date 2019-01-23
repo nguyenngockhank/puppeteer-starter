@@ -3,8 +3,7 @@ let GrabAuthorLinks = require('./tasks/GrabAuthorLinks');
 let ProcessAuthor = require('./tasks/ProcessAuthorPage');
 
 const config = {
-    name: 'Crawl  page', 
-    url: 'http://danhngoncuocsong.vn/tac-gia.html',
+    name: 'Crawl page', 
 }
 
 let HomeProcess = AppProcess(config);
