@@ -1,28 +1,28 @@
 const colors = require('colors');
 
 let Logger = {
-    info: function(str){
-        console.log(colors.cyan(str));
+    info: function(str, ...args) {
+        console.log(colors.cyan(str), ...args);
     }, 
-    error: function(str){
-        console.log(colors.red(str));
+    error: function(str, ...args) {
+        console.log(colors.red(str), ...args);
     },
-    success: function(str){
-        console.log(colors.green(str));
+    success: function(str, ...args) {
+        console.log(colors.green(str), ...args);
     },
-    case: function(str){
+    case: function(str, ...args) {
         var prefix = '>>> Case: ';
-        console.log(colors.rainbow(prefix + str));
+        console.log(colors.rainbow(prefix + str), ...args);
     },
-    subCase: function(str){
+    subCase: function(str, ...args) {
         var prefix = '>>> Sub case: ';
-        console.log(colors.yellow(prefix + str));
+        console.log(colors.yellow(prefix + str), ...args);
     },
-    pink: function (str) {
-        console.log(colors.magenta(str));
+    pink: function (str, ...args) {
+        console.log(colors.magenta(str), ...args);
     }, 
-    yellow: function(str){
-        console.log(colors.yellow(str));
+    yellow: function(str, ...args) {
+        console.log(colors.yellow(str), ...args);
     }
 }
 

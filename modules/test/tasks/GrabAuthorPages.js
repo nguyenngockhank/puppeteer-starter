@@ -15,7 +15,7 @@ ProcessAuthorPage.execute = async function(page, option){
         let task = GrabDataTask({
             url: authorLink,
             capture: true,
-            cacheKey: cacheKey,
+            cacheKey,
             /// 
             fnExecute: function(){
                 let data = [];

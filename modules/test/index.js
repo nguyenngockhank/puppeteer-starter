@@ -1,6 +1,7 @@
 let InjectTask = require('./tasks/InjectJquery');
 let GrabAuthorLinks = require('./tasks/GrabAuthorLinks');
-let ProcessAuthor = require('./tasks/ProcessAuthorPage');
+let GrabAuthorPages = require('./tasks/GrabAuthorPages');
+let GrabAuthorPosts = require('./tasks/GrabAuthorPosts');
 
 const config = {
     name: 'Crawl page', 
@@ -10,7 +11,8 @@ let HomeProcess = AppProcess(config);
 
 HomeProcess.addTask(InjectTask);
 HomeProcess.addTask(GrabAuthorLinks);
-HomeProcess.addTask(ProcessAuthor);
+HomeProcess.addTask(GrabAuthorPages);
+HomeProcess.addTask(GrabAuthorPosts);
 
 
 module.exports = HomeProcess;
