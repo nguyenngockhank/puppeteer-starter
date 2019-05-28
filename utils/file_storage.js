@@ -36,6 +36,11 @@ instance.get = function(key) {
     });
 }
 
+instance.has = function(key) {
+    let fullPath = getFullPath(key);
+    return fs.existsSync(fullPath);
+}
+
 
 
 module.exports = instance;

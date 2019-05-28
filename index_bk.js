@@ -1,6 +1,4 @@
 require('dotenv').config()
-var argv = require('minimist')(process.argv.slice(2));
-
 
 var path = require('path');
 global.appRoot = path.resolve(__dirname) + '/';
@@ -10,41 +8,43 @@ global._require = function _require(path) {
   return  require(fullPath);
 }
 
-_require('database');
-
 var {dataRuntime} = _require('runtime'); // require('./runtime');
 global.runtime = dataRuntime;
 
-let TaskAbstract = _require('common/pattern/task');
+let TaskAbstract = _require('pattern/task');
 global.TaskAbstract = TaskAbstract;
 
-let AppProcess = _require('common/pattern/app_process');
+let AppProcess = _require('pattern/app_process');
 global.AppProcess = AppProcess;
-
-const puppeteer = require('puppeteer');
 
 const ModuleRunner = _require('modules');
 
+/// -- helper function
+function grabArgument(key){ 
+  var res = null;
+  var param = `${key}=`;
+
+  process.argv.forEach((val, index) => {
+    if(val.startsWith(param)) {
+      res = val.split(param)[1]; 
+    }
+  });
+  return res;
+}
+
+
+const puppeteer = require('puppeteer');
 
 /// -- execute function
 (async () => {
-    const isHeadless = argv.hasOwnProperty('headless');
-    /// run database
-    await global.sequelize.sync();
-    
-    /// ...
-    let moduleName = argv.m; // grabArgument('m');
-    if(!moduleName) {
-      console.log('>>> No module for running')
-      return;
-    }
-
-    console.log('Run module name: ', moduleName);
     const browser = await puppeteer.launch({
-      headless: isHeadless
+      headless: false
     });
     const page = await browser.newPage();
     page.setViewport({width: 1400, height: 700, isLandscape: true});
+
+    let moduleName = grabArgument('m');
+    console.log('Run module name: ', moduleName);
 
     await ModuleRunner.run(page, moduleName);
 })();

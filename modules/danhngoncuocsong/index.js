@@ -1,4 +1,3 @@
-let InjectTask = require('./tasks/InjectJquery');
 let GrabAuthorLinks = require('./tasks/GrabAuthorLinks');
 let GrabAuthorPages = require('./tasks/GrabAuthorPages');
 let GrabAuthorPosts = require('./tasks/GrabAuthorPosts');
@@ -8,11 +7,8 @@ const config = {
 }
 
 let HomeProcess = AppProcess(config);
-
-HomeProcess.addTask(InjectTask);
 HomeProcess.addTask(GrabAuthorLinks);
 HomeProcess.addTask(GrabAuthorPages);
 HomeProcess.addTask(GrabAuthorPosts);
-
 
 module.exports = HomeProcess;

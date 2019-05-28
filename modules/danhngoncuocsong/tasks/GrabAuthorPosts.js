@@ -19,14 +19,14 @@ GrabAuthorPosts.execute = async function(page, option){
             fnCacheKey: function(key){
                 return `author-${authorSlug}-${key}.json`; 
             }, // must a Function
-            fnNextUrl: function(){
+            fnGetNextUrl: function(){
                 let $el = jQuery('.pagination .active').first().next();
                 if($el.length == 0) {
                     return null;
                 }
                 return $el.find('a').attr('href');
             },  // must a Function
-            fnNextCacheKey: function(){
+            fnGetNextCacheKey: function(){
                 return jQuery('.pagination .active').first().next().text();
             },  // must a Function
             fnExecute: function(){

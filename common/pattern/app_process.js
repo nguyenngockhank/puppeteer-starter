@@ -8,7 +8,7 @@ const {Logger, UI_Utils, _} = runtime;
 */
 function AppProcess(config){
     let instance = {};
-    let { name, url } = config;
+    let { name, url, firstAccess = false } = config;
 
     let page = null; //runtime.getPage();
     let tasks = [];
@@ -22,7 +22,7 @@ function AppProcess(config){
     instance.getPage = () => page;
 
     instance.accessPage = async () => {
-        if(!url) return;
+        Logger.info('Start loading page')
         await UI_Utils.accessPage(page, url, name, 1000);
         Logger.info('Done loading page');
     }
@@ -50,8 +50,10 @@ function AppProcess(config){
         var data = {};
         await instance.beforeRun(data);
 
-        await instance.accessPage();
-
+        if (firstAccess) {
+            await instance.accessPage();
+        }
+        
         await instance.runTasks(data);
         await instance.afterRun(data);
 

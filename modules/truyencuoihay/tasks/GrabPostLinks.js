@@ -12,10 +12,15 @@ GrabPostLinks.execute = async function(page, option){
         fnCacheKey: function(key){
             return `truyencuoihay-${key}.json`; 
         }, // must a Function
-        fnNextCacheKey: function(){
+        fnNextCacheKey: function(currentCacheKey) {
+            var [,, key,] = currentCacheKey.match('(truyencuoihay\-)([0-9]+)(.json)');
+            ++key;
+            return `truyencuoihay-${key}.json`; 
+        },
+        fnGetNextCacheKey: function(){
             return jQuery('.current-page').next().text();
         }, 
-        fnNextUrl: function(){
+        fnGetNextUrl: function(){
             let $el = jQuery('.current-page').next();
             if($el.length == 0) {
                 return null;
@@ -36,11 +41,12 @@ GrabPostLinks.execute = async function(page, option){
             return data;
         },
         fnAfterExecute: function(data){
-            Logger.success('>>> SUCCESS:', data);
-
-            datalinks = data;
+            // Logger.success('>>> SUCCESS:', data);
+            option.data.posts = data;
         }
     });
+
+   
 
     await task.execute(page, option);
 

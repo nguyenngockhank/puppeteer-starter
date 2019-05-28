@@ -1,3 +1,4 @@
+const CacheStorage = _require('utils/file_storage');
 let GrabDataTask = require('./GrabDataTask');
 
 
@@ -9,8 +10,11 @@ let GrabListDataTask = function(options){
         url, // for first access
         firstCacheKey = 1, 
         fnCacheKey, // must a Function
-        fnNextUrl,  // must a Function
-        fnNextCacheKey,  // must a Function
+        fnGetNextUrl,  // must a Function
+        fnGetNextCacheKey,  // must a Function
+
+
+        fnNextCacheKey, /// options: check in cache
         fnAfterExecute
     } = options;
 
@@ -22,15 +26,34 @@ let GrabListDataTask = function(options){
         let currentUrl = url;
         let nextUrl = null;
         let nextCacheKey = null;
+
+
+        var _hasNextInCache = false;
+        var _tempKeyCache = '';
+        var _nextUrl = '';
         do {
+            if (fnNextCacheKey) {
+                
+                _tempKeyCache = fnNextCacheKey(cacheKey);
+
+
+                /// check in cache
+                if (CacheStorage.has(_tempKeyCache)) {
+                    _hasNextInCache = true;
+                    _nextUrl = '^^';
+                }
+
+                console.log( 'check cache key , ',cacheKey, _tempKeyCache, CacheStorage.has(_tempKeyCache))
+            } 
+
             let subTask = GrabDataTask({
                 cacheKey, 
                 capture,
                 url: currentUrl,
                 fnExecute,
                 fnBeforeExecute: async function(){
-                    nextUrl = await page.evaluate(fnNextUrl);
-                    nextCacheKey = await page.evaluate(fnNextCacheKey);
+                    nextUrl = await page.evaluate(fnGetNextUrl);
+                    nextCacheKey = await page.evaluate(fnGetNextCacheKey);
                 },
                 fnAfterExecute: function(data){
                     console.log(data)
@@ -39,8 +62,18 @@ let GrabListDataTask = function(options){
             });
 
             await subTask.run(page, option);
-            cacheKey = fnCacheKey(nextCacheKey); 
-            currentUrl = nextUrl;
+
+            if(!_hasNextInCache) {
+                cacheKey = fnCacheKey(nextCacheKey); 
+                currentUrl = nextUrl;
+            } else {
+                cacheKey = _tempKeyCache;
+                currentUrl = _nextUrl;
+            }
+           
+
+            _hasNextInCache = false;
+          
         } while(currentUrl != null);
 
         fnAfterExecute(retData);
