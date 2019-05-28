@@ -17,8 +17,6 @@ global.TaskAbstract = TaskAbstract;
 let AppProcess = _require('pattern/app_process');
 global.AppProcess = AppProcess;
 
-const puppeteer = require('puppeteer');
-
 const ModuleRunner = _require('modules');
 
 /// -- helper function
@@ -33,6 +31,9 @@ function grabArgument(key){
   });
   return res;
 }
+
+
+const puppeteer = require('puppeteer');
 
 /// -- execute function
 (async () => {

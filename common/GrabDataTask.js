@@ -1,6 +1,9 @@
 const CacheStorage = _require('utils/file_storage');
 const {UI_Utils, _, Logger} = runtime;
 
+let InjectScriptTask = _require('common/InjectScriptTask');
+var injectJQueryTask = InjectScriptTask('https://code.jquery.com/jquery-3.2.1.min.js');
+
 
 let GrabDataTask = function(options) {
     let { 
@@ -15,6 +18,7 @@ let GrabDataTask = function(options) {
     async function accessPage(page){
         let screenName =  capture ? cacheKey : '';
         await UI_Utils.accessPage(page, url, screenName);
+        await injectJQueryTask.execute(page);
     }
 
     instance.execute = async function (page, option) {
