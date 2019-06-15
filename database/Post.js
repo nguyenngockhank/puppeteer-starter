@@ -1,4 +1,4 @@
-module.exports = sequelize.define('post', {
+module.exports = sequelize.define('tddn_post', {
     module:  { 
         type: Sequelize.STRING, 
         primaryKey: true,
