@@ -1,4 +1,4 @@
-const ActionDecorator = require('./ActionDecorator');
+const ActionDecorator = require('./base/ActionDecorator');
 
 /**
  * A class to store ajax repsonse. 
@@ -12,14 +12,27 @@ class StoreResponse extends ActionDecorator {
         this._contentType = 'json';
 
         this.setCallback(async (page) => {
-            let { _url, _contentType, _name } = this;
+            let { _url, _contentType, _name, _cacheItem } = this;
 
-            const response = await page.waitForResponse(_url);
+            let content = '';
 
-            if (_name) {
-                let content = await (_contentType === 'text' ?  response.text() : response.json() );
-                this.setProp(_name, content);
+            // get from cache 
+            if (_cacheItem && _cacheItem.exist()) { 
+                content = _cacheItem.get();
+                if (_contentType != 'text') {
+                    content = JSON.parse(content);
+                }
+            } else {
+            // process 
+                const response = await page.waitForResponse(_url);
+                content = await (_contentType === 'text' ?  response.text() : response.json() );
+
+                if (_cacheItem) {
+                    _cacheItem.set(content);
+                }
             }
+           
+            this.setProp(_name, content);
         });
     }
 
@@ -35,12 +48,21 @@ class StoreResponse extends ActionDecorator {
      * Set property name
      * @param {String} name 
      */
-    setName(name) {
+    setPropName(name) {
         this._name = name;
     }
 
+    /**
+     * Set Url
+     * @param {String} name 
+     */
     setUrl(url) {
         this._url = url;
+    }
+
+    
+    setCacheItem(cacheItem) {
+        this._cacheItem = cacheItem;
     }
 }
 

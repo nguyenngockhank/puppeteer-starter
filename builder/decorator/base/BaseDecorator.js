@@ -6,8 +6,15 @@ class BaseDecorator {
      */
     constructor(decorator) {
         this._decorator = decorator;
-        this._props = {};
+
+        if (!decorator) {
+            this._props = {};
+        }
         console.log('Init ', this.constructor.name);
+    }
+
+    getProp(name) {
+        return this.getProps()[name];
     }
 
     getProps() {
@@ -15,6 +22,7 @@ class BaseDecorator {
     }
 
     setProp(name, value) {
+        // console.log(`Stored prop: ${name}`);
         this.getProps()[name] = value;
     }
 

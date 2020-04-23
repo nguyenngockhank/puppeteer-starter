@@ -1,4 +1,4 @@
-const ActionDecorator = require('./ActionDecorator');
+const ActionDecorator = require('./base/ActionDecorator');
 
 class Access extends ActionDecorator {
 
