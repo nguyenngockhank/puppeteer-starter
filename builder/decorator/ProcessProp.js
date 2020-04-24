@@ -1,5 +1,4 @@
 const ActionDecorator = require('./base/ActionDecorator');
-const JqueryHelper = require('../../common/JqueryHelper');
 
 class ProcessProp extends ActionDecorator {
 
@@ -11,15 +10,22 @@ class ProcessProp extends ActionDecorator {
         this.setCallback(async (page) => {
             let { _name, _fnProcess, _storedName } = this;
 
-            const value = this.getProp(_name);
-            const $ = JqueryHelper.getInstance(value);
-
-            // call 
-            let result = _fnProcess($);
+            // filter value 
+            let value = this.getProp(_name);
+            if (this._fnFilter) {
+                value = this._fnFilter(value); 
+            }
+            // end filter
+            
+            let result = _fnProcess(value);
             let storedPropName = _storedName || _name;
 
             this.setProp(storedPropName, result);
         });
+    }
+
+    setFilterFn(fnFilter) {
+        this._fnFilter = fnFilter;
     }
 
     /**

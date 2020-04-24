@@ -1,4 +1,6 @@
 const fs = require('fs');
+const path = require('path');
+const makeDir = require('make-dir');
 
 class CacheItem {
 
@@ -20,14 +22,27 @@ class CacheItem {
         return fs.existsSync(path);
     }
     
+    createPathIfNotExist() {
+        let dirname = path.dirname(this.getPath());
+        if (!fs.existsSync(dirname)) {
+            makeDir.sync(dirname);
+        }
+    }
+
     set(content) {
+        this.createPathIfNotExist();
+
         let path = this.getPath();
+        if (typeof content !== 'string') {
+            content = JSON.stringify(content);
+        }
         return fs.writeFileSync(path, content, 'utf8',);
     }
 
-    get() {
+    get(type = 'text') {
         let path = this.getPath();
-        return fs.readFileSync(path, 'utf8');
+        let content = fs.readFileSync(path, 'utf8');
+        return type === 'text' ? content : JSON.parse(content);
     }
 
 }

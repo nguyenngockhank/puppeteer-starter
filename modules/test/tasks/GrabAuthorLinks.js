@@ -1,7 +1,5 @@
 let GrabDataTask = _require('common/GrabDataTask');
 
-let url
-
 const instance = GrabDataTask({
     url: '/tac-gia.html',
     cacheKey: 'author-links.json',

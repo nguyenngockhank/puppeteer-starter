@@ -1,19 +1,19 @@
 const BaseDecorator = require('./decorator/base/BaseDecorator');
 const Access = require('./decorator/Access');
 const Click = require('./decorator/Click');
+const SetJsEnabled = require('./decorator/SetJsEnabled');
+const Evaluate = require('./decorator/Evaluate');
 const StoreResponse = require('./decorator/StoreResponse');
 const ProcessProp = require('./decorator/ProcessProp');
+const ProcessHtmlProp = require('./decorator/ProcessHtmlProp');
 
 
 const isRequired = () => { throw new Error('param is required'); };
 
-class PageBuilder {
+class ProcessBuilder {
  
-
     static init(page = isRequired()) {
-        let instance = new PageBuilder;
-
-
+        let instance = new ProcessBuilder;
         let decor = new BaseDecorator();
         decor.setPage(page);
         return instance._setNewDecor(decor);
@@ -25,9 +25,28 @@ class PageBuilder {
         return this._setNewDecor(decor);
     }
 
+    enableJs() {
+        let decor = new SetJsEnabled(this._decor);
+        decor.setEnabled(true);
+        return this._setNewDecor(decor);
+    }
+
+    disableJs() {
+        let decor = new SetJsEnabled(this._decor);
+        decor.setEnabled(false);
+        return this._setNewDecor(decor);
+    }
+
     click(selector = isRequired()) {
         let decor = new Click(this._decor);
         decor.setSelector(selector);
+        return this._setNewDecor(decor); 
+    }
+
+    evaluate(propName = isRequired(), processFn = isRequired()) {
+        let decor = new Evaluate(this._decor);
+        decor.setPropName(propName);
+        decor.setProcessFn(processFn);
         return this._setNewDecor(decor); 
     }
 
@@ -42,10 +61,12 @@ class PageBuilder {
 
     processProp(propName = isRequired(), processFn = isRequired(), storedName = '') {
         let decor = new ProcessProp(this._decor);
-        decor.setPropName(propName);
-        decor.setProcessFn(processFn);
-        decor.setStoredPropName(storedName);
-        return this._setNewDecor(decor); 
+        return this._processProp(decor, propName, processFn, storedName);
+    }
+
+    processHtmlProp(propName = isRequired(), processFn = isRequired(), storedName = '') {
+        let decor = new ProcessHtmlProp(this._decor);
+        return this._processProp(decor, propName, processFn, storedName);
     }
 
     /**
@@ -55,10 +76,17 @@ class PageBuilder {
         await this._decor.execute();
     }
 
+    _processProp(decor, propName, processFn, storedName) {
+        decor.setPropName(propName);
+        decor.setProcessFn(processFn);
+        decor.setStoredPropName(storedName);
+        return this._setNewDecor(decor); 
+    }
+
     _setNewDecor(decor) {
         this._decor = decor;
         return this;
     }
 }
 
-module.exports = PageBuilder;
+module.exports = ProcessBuilder;
