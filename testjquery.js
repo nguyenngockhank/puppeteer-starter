@@ -1,7 +1,7 @@
 require('./bootstrap');
 
-const JQueryHelper = require('./common/JqueryHelper');
-const cacheItem =  require('./common/CacheItem').init('tcltq.chaps');
+const JQueryHelper = require('./core/common/JqueryHelper');
+const cacheItem =  require('./core/common/CacheItem').init('tcltq.chaps');
 let content = cacheItem.get();
 
 // console.log('CONTENT ', content);

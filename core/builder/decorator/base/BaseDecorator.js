@@ -10,7 +10,7 @@ class BaseDecorator {
         if (!decorator) {
             this._props = {};
         }
-        console.log('Init ', this.constructor.name);
+        // console.log('Init ', this.constructor.name);
     }
 
     getProp(name) {

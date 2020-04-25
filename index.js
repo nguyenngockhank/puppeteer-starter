@@ -37,7 +37,7 @@ function grabArgument(key){
 /// -- execute function
 (async () => {
     const browser = await puppeteer.launch({
-      headless: false
+      // headless: false
     });
     const page = await browser.newPage();
     page.setViewport({width: 1400, height: 700, isLandscape: true});

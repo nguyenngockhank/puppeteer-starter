@@ -1,5 +1,5 @@
 const ProcessProp = require('./ProcessProp');
-const JqueryHelper = require('../../common/JqueryHelper');
+const JqueryHelper = _require('core/common/JqueryHelper');
 
 class ProcessHtmlProp extends ProcessProp {
 

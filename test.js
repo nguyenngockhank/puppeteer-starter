@@ -1,6 +1,6 @@
 require('./bootstrap');
 
-const CacheItem = require('./common/CacheItem');
+const CacheItem = require('./core/common/CacheItem');
 
 const puppeteer = require('puppeteer');
 
@@ -58,7 +58,7 @@ var striptags = require('striptags');
     ProcessStaticList.execute(chapItems, page, {
         before(item) {
             let cacheItem = CacheItem.init(`tcltq/chaps.${item.index + 1}.html`);
-            if (cacheItem.exist()) {
+            if (cacheItem.exist() && cacheItem.get()) {
                 return false;
             }
         },
@@ -67,17 +67,28 @@ var striptags = require('striptags');
             cacheItem.set(builder._decor.getProp(`chap_content`));
         },
         build(builder, item) {
+            console.log('PROCESS ITEM INDEX ', item.index);
+            
             let href = CONFIG.base + item.href;
             builder.disableJs()
                 .access(href)
                 .evaluate('chap_content', function() {
-                    return document.querySelector('.chapter-content').innerHTML;
+                    let el = document.querySelector('.chapter-content')
+                    return el ? el.innerHTML : '';
                 })
                 .processProp('chap_content', (content) => {
                     // strip tags
                     content = striptags(content, ['br']);
                     // Remove everything after a certain character
-                    content = content.substring(0, content.indexOf(`Convert by:`));
+                    [`Giao diện cho điện thoại`, `Convert by:` ].map((str) => {
+                        if (content.indexOf(str) > 0) {
+                            content = content.substring(0, content.indexOf(str));
+                        }
+                    });
+
+                    if (!content) {
+                        console.warn('> Empty content at ', item.index);
+                    }
                     return content;
                 });
         },

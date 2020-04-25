@@ -1,5 +1,5 @@
 const ProcessBuilder = require('./ProcessBuilder');
-const CacheItem = require('../common/CacheItem');
+const CacheItem = _require('core/common/CacheItem');
 
 const isRequired = () => { throw new Error('param is required'); };
 
