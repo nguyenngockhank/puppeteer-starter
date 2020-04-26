@@ -26,6 +26,8 @@ module.exports = async (page) => {
                     .processHtmlProp('chapters', ($) => {
                         let result = [];
                         $('.chuong-item').each(function( index ) {
+                            index = parseInt(index) + 1;
+
                             let item = {
                                 index,
                                 href: $(this).prop('href'),

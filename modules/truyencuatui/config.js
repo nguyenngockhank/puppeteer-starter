@@ -10,6 +10,7 @@ const songKiemProps = {
 
 const CONFIG = {
     base: `https://truyencuatui.net`,
+    baseUrl: `https://truyencuatui.net`,
     // ...tcltqProps
     ...songKiemProps,
     

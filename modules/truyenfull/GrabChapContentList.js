@@ -27,12 +27,13 @@ module.exports = async (page, chapItems) => {
             builder.disableJs()
                 .access(href)
                 .evaluate(STORED_PROP, function() {
-                    let el = document.querySelector('.chapter-content')
+                    let el = document.querySelector('#chapter-c');
                     return el ? el.innerHTML : '';
                 })
                 .processProp(STORED_PROP, (content) => {
                     // strip tags
                     content = striptags(content, ['br']);
+
                     // Remove everything after a certain character
                     textFilters.map((str) => {
                         if (content.indexOf(str) > 0) {
