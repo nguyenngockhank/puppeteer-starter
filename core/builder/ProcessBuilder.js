@@ -1,6 +1,7 @@
 const BaseDecorator = require('./decorator/base/BaseDecorator');
 const Access = require('./decorator/Access');
 const Click = require('./decorator/Click');
+const WaitFor = require('./decorator/WaitFor');
 const SetJsEnabled = require('./decorator/SetJsEnabled');
 const Evaluate = require('./decorator/Evaluate');
 const StoreResponse = require('./decorator/StoreResponse');
@@ -22,6 +23,12 @@ class ProcessBuilder {
     access(url = isRequired()) {
         let decor = new Access(this._decor);
         decor.setUrl(url);
+        return this._setNewDecor(decor);
+    }
+
+    waitFor(action = isRequired()) {
+        let decor = new WaitFor(this._decor);
+        decor.setAction(action);
         return this._setNewDecor(decor);
     }
 
