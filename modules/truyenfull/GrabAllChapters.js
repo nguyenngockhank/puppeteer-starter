@@ -2,7 +2,7 @@ const CONFIG = require('./config');
 const PageProcess = _require(`core/builder/PageProcess`);
 
 module.exports = async (page, truyenId) => {
-    const { prefix, baseUrl, truyenSlug, } = CONFIG;
+    const { prefix, baseUrl, storySlug, } = CONFIG;
 
     const STORED_PROP = 'allChapters';
     const cacheOption = {
@@ -31,7 +31,7 @@ module.exports = async (page, truyenId) => {
                         index = parseInt(index);
                         
                         return {
-                            href: `${truyenSlug}/${chapSlug}/`,
+                            href: `${storySlug}/${chapSlug}/`,
                             index 
                         };
                     });

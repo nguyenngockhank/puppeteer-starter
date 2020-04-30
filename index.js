@@ -1,12 +1,5 @@
-require('dotenv').config()
-
-var path = require('path');
-global.appRoot = path.resolve(__dirname) + '/';
-
-global._require = function _require(path) {
-  let fullPath = appRoot + path;
-  return  require(fullPath);
-}
+require('./bootstrap');
+var argv = require('minimist')(process.argv.slice(2));
 
 var {dataRuntime} = _require('runtime'); // require('./runtime');
 global.runtime = dataRuntime;
@@ -21,28 +14,18 @@ const puppeteer = require('puppeteer');
 
 const ModuleRunner = _require('modules');
 
-/// -- helper function
-function grabArgument(key){ 
-  var res = null;
-  var param = `${key}=`;
-
-  process.argv.forEach((val, index) => {
-    if(val.startsWith(param)) {
-      res = val.split(param)[1]; 
-    }
-  });
-  return res;
-}
-
 /// -- execute function
 (async () => {
+    let { m, headless } = argv;
+
     const browser = await puppeteer.launch({
-      headless: false
+      headless: headless
     });
+    
     const page = await browser.newPage();
     page.setViewport({width: 1400, height: 700, isLandscape: true});
 
-    let moduleName = grabArgument('m');
+    let moduleName = m;
     console.log('Run module name: ', moduleName);
 
     await ModuleRunner.run(page, moduleName);

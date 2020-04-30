@@ -2,7 +2,7 @@ const CONFIG = require('./config');
 const PageProcess = _require(`core/builder/PageProcess`);
 
 module.exports = async (page) => {
-    const { prefix, chaptersUrl } = CONFIG;
+    const { prefix, firstChapUrl } = CONFIG;
 
     const STORED_PROP = 'all_chaps';
     const cacheOption = {
@@ -16,10 +16,10 @@ module.exports = async (page) => {
         {
             build(builder) {
                 // const chapHtmlCache = CacheItem.init('tcltq/chaps.html');
-                builder.access(chaptersUrl)
+                builder.access(firstChapUrl)
                     .click(`.btn-chapters`)
                     .storeResponse(
-                        chaptersUrl.replace(`/truyen/`, `/chuong/`), 
+                        firstChapUrl.replace(`/truyen/`, `/chuong/`), 
                         'chapters', 
                         'text'
                     )

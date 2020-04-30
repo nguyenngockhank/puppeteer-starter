@@ -1,7 +1,8 @@
 
 const toicuongphanphaiht = {
     prefix: `toicuongphanphaiht`,
-    truyenSlug: `toi-cuong-phan-phai-he-thong`,
+    storySlug: `toi-cuong-phan-phai-he-thong`,
+    storyName: `Tối Cường Phản Phái Hệ Thống`,
     firstChapUrl: `https://truyendich.org/doc-truyen/toi-cuong-phan-phai-he-thong`,
 };
 

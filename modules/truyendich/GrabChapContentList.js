@@ -7,7 +7,7 @@ function grabContentFn() {
 }
 
 module.exports = async(page, truyenInfo) => {
-    let { truyenSlug, baseUrl, } = CONFIG;
+    let { storySlug, baseUrl, } = CONFIG;
     let { maxChapter,  } = truyenInfo;
     maxChapter = parseInt(maxChapter);
 
@@ -15,7 +15,7 @@ module.exports = async(page, truyenInfo) => {
     for(let i = 1; i <= maxChapter; ++i) {
         chapItems.push({
             index: i,
-            href: `${baseUrl}doc-truyen/${truyenSlug}/${i}`,
+            href: `${baseUrl}doc-truyen/${storySlug}/${i}`,
         });
     }
 

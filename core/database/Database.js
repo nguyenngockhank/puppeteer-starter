@@ -2,6 +2,11 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 
 function correctPath(path) {
+    if (global && global.appRoot) {
+        if (!path.startsWith(global.appRoot)) {
+            path = global.appRoot + path;
+        }
+    }
     if (!path.endsWith('/')) {
         return path + '/';
     }

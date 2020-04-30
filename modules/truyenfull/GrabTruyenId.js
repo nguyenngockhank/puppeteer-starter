@@ -5,24 +5,27 @@ module.exports = async (page) => {
     const { prefix, firstChapUrl } = CONFIG;
 
     const STORED_PROP = 'truyenId';
+    
     const cacheOption = {
         key: `${prefix}/info.json`,
         propName: STORED_PROP,
     };
 
+    function buildFn(builder) {
+        builder
+            .access(firstChapUrl)
+            .evaluate(STORED_PROP, function() {
+                let truyenId = document.querySelector(`#truyen-id`).value;
+                let name = document.querySelector('.truyen-title').text;
+                return {
+                    name,
+                    truyenId
+                };
+            });
+    }
+
     const callbacks = {
-        build(builder) {
-            builder
-                .access(firstChapUrl)
-                .evaluate(STORED_PROP, function() {
-                    let truyenId = document.querySelector(`#truyen-id`).value;
-                    let name = document.querySelector('.truyen-title').text;
-                    return {
-                        name,
-                        truyenId
-                    };
-                });
-        }
+        build: buildFn
     };
 
     let chapItems = await PageProcess.withCache(

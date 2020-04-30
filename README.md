@@ -10,8 +10,12 @@ SITE_URL={{YOUR_SITE_URL}}
 ```
 
 ## Run 
+
 Run in terminal
+
 ```html
-node index.js m=test
+node index.js --m=truyendich headless
 ```
-`m` stand for module
+
+- `m` stands for module
+- `headless` used for run in background

@@ -8,7 +8,7 @@ class ActionDecorator extends BaseDecorator {
 
     async execute() {
         await this._decorator.execute();
-        // console.log('> Execute: ', this.constructor.name);
+        console.log('> Execute: ', this.constructor.name);
 
         let page = this.getPage();
         let fn = this._fn;
