@@ -25,7 +25,7 @@ function filterContent(content, textFilters = []) {
     }
 
     if (!content) {
-        console.warn('> Empty content at ', item.index);
+        console.warn('> Empty content');
     }
     return content;
 }

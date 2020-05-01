@@ -13,9 +13,17 @@ const htgamedigioiProps = {
     firstChapUrl: `https://truyenfull.vn/di-gioi-he-thong-game-tai-di-gioi/chuong-1/`,
 }
 
+const mathulanhchua = {
+    prefix: `mathulanhchua`,
+    storyName: `Ma Thú Lãnh Chúa`,
+    storySlug: `ma-thu-lanh-chua`,
+    firstChapUrl: `https://truyenfull.vn/ma-thu-lanh-chua/chuong-1/`,
+}
+
+
 module.exports = {
     baseUrl: `https://truyenfull.vn/`,
     textFilters: [
     ],
-    ...htgamedigioiProps
+    ...nhatniemvinhhangProps
 };

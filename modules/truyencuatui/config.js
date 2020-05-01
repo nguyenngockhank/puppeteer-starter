@@ -12,11 +12,18 @@ const songKiemProps = {
     storySlug: `song-kiem`,
 };
 
+const takomuonnghichthienProps = {
+    prefix: `takomuonnghichthien`,
+    firstChapUrl: `https://truyencuatui.net/truyen/ta-khong-muon-nghich-thien-a.html`,
+    storyName: `Ta Không Muốn Nghịch Thiên A`,
+    storySlug: `ta-khong-muon-nghich-thien-a`,
+}
+
 const CONFIG = {
     base: `https://truyencuatui.net`,
     baseUrl: `https://truyencuatui.net`,
     // ...tcltqProps
-    ...songKiemProps,
+    ...takomuonnghichthienProps,
     
     textFilters: [
         `Giao diện cho điện thoại`,
