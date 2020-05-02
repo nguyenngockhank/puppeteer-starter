@@ -14,6 +14,14 @@ module.exports = (sequelize) => {
             unique: true,
         },
         name: DataTypes.STRING,
+        summary: {
+            type: DataTypes.TEXT, 
+            allowNull: true,
+        },
+        chapter_count: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
         url: {
             type: DataTypes.STRING(1000),
             allowNull: true,

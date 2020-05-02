@@ -5,45 +5,64 @@ module.exports = async (page, truyenId) => {
     const { prefix, baseUrl, storySlug, } = CONFIG;
 
     const STORED_PROP = 'allChapters';
-    const cacheOption = {
-        key: `${prefix}/chaps.json`,
-        propName: STORED_PROP,
-    };
+    let chapItems = [];
+    let pageIndex = 1;
+    let grabDone = false;
 
-    let optionUrl = `${baseUrl}ajax.php?type=chapter_option&data=${truyenId}`;
+    do {
+        let cacheOption = {
+            key: `${prefix}/chaps/${pageIndex}.json`,
+            propName: STORED_PROP,
+        };
 
-    let callbacks = {
-        build(builder) {
+        let chapsUrl = `${baseUrl}${storySlug}/trang-${pageIndex}/`;
 
-            builder
-                .access(optionUrl)
+        function buildCallback(builder) {
+            builder.access(chapsUrl)
                 .evaluate(STORED_PROP, function() {
-                    let result = [];
-                    for(var optionEl of document.getElementsByTagName('option')) {
-                        result.push(optionEl.value);
-                    }
-                    return result;
-                })
-                .processProp(STORED_PROP, (content) => {
-                    return content.map((chapSlug) => {
-                        // chapSlug example: `chuong-1`
-                        let [, index] = chapSlug.match(/chuong-([0-9]+)/);
-                        index = parseInt(index);
-                        
-                        return {
-                            href: `${storySlug}/${chapSlug}/`,
-                            index 
-                        };
+                    // -- grab chapter list
+                    let chapters = [];
+                    $('.list-chapter li').each((i, el) => {
+                        let item = {};
+                        let $a = $(el).find('a');
+                        item.title = $a.attr('title');
+                        item.href = $a.attr('href');
+                        let [, index] = item.href.match(/\/chuong-([0-9]+)/);
+                        item.index = parseInt(index);
+                        chapters.push(item);
                     });
+                    // -- end grab chapter list
+
+                    // -- get current Page
+                    $('.pagination .active .sr-only').remove();
+                    let currentPage = parseInt($('.pagination .active').text());
+
+                    return {
+                        chapters,
+                        currentPage,
+                    };
                 });
         }
-    };
 
-    let chapItems = await PageProcess.withCache(
-        page, 
-        cacheOption,
-        callbacks
-    );
-    
+        let info = await PageProcess.withCache(
+            page, 
+            cacheOption,
+            {
+                build: buildCallback
+            }
+        );
+        
+        // process chapters & grab done
+        let { chapters, currentPage } = info;
+
+        grabDone = currentPage != pageIndex;
+        if (!grabDone) { // ignore the last page
+            chapItems.push.apply(chapItems, chapters); 
+        }
+
+        // increase 
+        ++pageIndex;
+    } while(!grabDone);
+
     return chapItems;
 }

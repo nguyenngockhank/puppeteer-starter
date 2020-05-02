@@ -19,8 +19,7 @@ module.exports = async(page, truyenInfo) => {
         });
     }
 
-    chapItems.length = 10;
-
+    // chapItems.length = 10;
     return GrabChapContentList(
         page, chapItems, grabContentFn, { 
             ...CONFIG, 

@@ -23,7 +23,7 @@ const CONFIG = {
     base: `https://truyencuatui.net`,
     baseUrl: `https://truyencuatui.net`,
     // ...tcltqProps
-    ...takomuonnghichthienProps,
+    ...tcltqProps,
     
     textFilters: [
         `Giao diện cho điện thoại`,

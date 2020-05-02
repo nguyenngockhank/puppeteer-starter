@@ -8,6 +8,10 @@ class Runner extends ModuleProcess {
     async run() {
         let truyenInfo = await GrabTruyenInfo(this._page);
         await GrabChapContentList(this._page, truyenInfo);
+
+        // let db = require('../common/loadStoryDb');
+        // await StoreToDb(db, allChapters);
+        // console.log('--- DONE ---');
     }
 
 }

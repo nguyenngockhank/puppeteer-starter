@@ -19,3 +19,8 @@ node index.js --m=truyendich headless
 
 - `m` stands for module
 - `headless` used for run in background
+
+## Tech Docs
+
+- [Sequelize](https://sequelize.org/v5/)
+    - [Instance](https://sequelize.org/v5/manual/instances.html)
