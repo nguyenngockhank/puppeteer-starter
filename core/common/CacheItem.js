@@ -40,6 +40,9 @@ class CacheItem {
     }
 
     get(type = 'text') {
+        if (!this.exist()) {
+            return undefined;
+        }
         let path = this.getPath();
         let content = fs.readFileSync(path, 'utf8');
         return type === 'text' ? content : JSON.parse(content);

@@ -7,15 +7,6 @@ function grabContentFn() {
 }
 
 module.exports = async(page, chapItems) => {
-    let baseUrl = CONFIG.baseUrl;
-
-    chapItems = chapItems.map((item) => {
-        return {
-            ...item,
-            href: baseUrl + item.href,
-        };
-    });
-
     return GrabChapContentList(
         page, chapItems, grabContentFn, CONFIG
     );

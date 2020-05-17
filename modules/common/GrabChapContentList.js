@@ -1,3 +1,4 @@
+const { contentPath } = require('./helpers');
 const ProcessStaticList = _require('core/builder/ProcessStaticList');
 const CacheItem = _require('core/common/CacheItem');
 
@@ -75,17 +76,16 @@ function processSinglePage(builder, item, grabContentFn, config) {
 module.exports = async (page, chapItems, grabContentFn, config) => {
     let { prefix, processType = 'static' } = config;
 
-
-    // item : { index, href }
+    // item : { index, href, title }
     await ProcessStaticList.execute(chapItems, page, {
         before(item) {
-            let cacheItem = CacheItem.init(`${prefix}/chaps.${item.index}.html`);
+            let cacheItem = CacheItem.init(contentPath(prefix, item.index));
             if (cacheItem.exist() && cacheItem.get()) {
                 return false;
             }
         },
         after(builder, item) {
-            let cacheItem = CacheItem.init(`${prefix}/chaps.${item.index}.html`);
+            let cacheItem = CacheItem.init(contentPath(prefix, item.index));
             cacheItem.set(builder._decor.getProp(STORED_PROP));
         },
         build(builder, item) {

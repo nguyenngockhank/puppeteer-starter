@@ -6,19 +6,8 @@ function grabContentFn() {
     return el ? el.innerHTML : '';
 }
 
-module.exports = async(page, truyenInfo) => {
-    let { storySlug, baseUrl, } = CONFIG;
-    let { maxChapter,  } = truyenInfo;
-    maxChapter = parseInt(maxChapter);
-
-    let chapItems = [];
-    for(let i = 1; i <= maxChapter; ++i) {
-        chapItems.push({
-            index: i,
-            href: `${baseUrl}doc-truyen/${storySlug}/${i}`,
-        });
-    }
-
+module.exports = async (page, chapItems) => {
+   
     // chapItems.length = 10;
     return GrabChapContentList(
         page, chapItems, grabContentFn, { 

@@ -20,10 +20,23 @@ const mathulanhchua = {
     firstChapUrl: `https://truyenfull.vn/ma-thu-lanh-chua/chuong-1/`,
 }
 
+const linhvuthienhaProps = {
+    prefix: `linhvuthienha`,
+    storyName: `Linh Vũ Thiên Hạ`,
+    storySlug: `linh-vu-thien-ha`,
+    firstChapUrl: `https://truyenfull.vn/linh-vu-thien-ha/chuong-1/`,
+}
+
+const detonProps = {
+    prefix: `deton`,
+    storyName: `Đế Tôn`,
+    storySlug: `de-ton`,
+    firstChapUrl: `https://truyenfull.vn/de-ton/`,
+}
 
 module.exports = {
     baseUrl: `https://truyenfull.vn/`,
-    textFilters: [
-    ],
-    ...nhatniemvinhhangProps
+    textFilters: [ ],
+    // ...detonProps
+    ...linhvuthienhaProps,
 };

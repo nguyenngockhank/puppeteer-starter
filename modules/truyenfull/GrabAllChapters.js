@@ -1,7 +1,7 @@
 const CONFIG = require('./config');
 const PageProcess = _require(`core/builder/PageProcess`);
 
-module.exports = async (page, truyenId) => {
+module.exports = async (page) => {
     const { prefix, baseUrl, storySlug, } = CONFIG;
 
     const STORED_PROP = 'allChapters';
@@ -25,7 +25,8 @@ module.exports = async (page, truyenId) => {
                     $('.list-chapter li').each((i, el) => {
                         let item = {};
                         let $a = $(el).find('a');
-                        item.title = $a.attr('title');
+                        // item.title = $a.attr('title');
+                        item.title = el.innerText.trim();
                         item.href = $a.attr('href');
                         let [, index] = item.href.match(/\/chuong-([0-9]+)/);
                         item.index = parseInt(index);

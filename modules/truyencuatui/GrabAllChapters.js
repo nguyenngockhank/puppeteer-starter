@@ -31,7 +31,7 @@ module.exports = async (page) => {
                             let item = {
                                 index,
                                 href: $(this).prop('href'),
-                                text: $(this).text(),
+                                title: $(this).text(),
                             };
                             result.push(item);
                         });
